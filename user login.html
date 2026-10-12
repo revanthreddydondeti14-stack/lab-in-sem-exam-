@@ -1,0 +1,161 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Login Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container" id="loginPage">
+        <h2>User Login</h2>
+
+        <input type="text" id="username"
+               placeholder="Enter username">
+
+        <input type="password" id="password"
+               placeholder="Enter password">
+
+        <button onclick="login()">Login</button>
+
+        <p id="message"></p>
+
+        <p>New user? Register below.</p>
+
+        <input type="text" id="regUsername"
+               placeholder="Create username">
+
+        <input type="password" id="regPassword"
+               placeholder="Create password">
+
+        <button onclick="register()">Register</button>
+    </div>
+
+    <div class="container" id="dashboard" hidden>
+        <h1>Welcome!</h1>
+        <h2 id="welcomeUser"></h2>
+
+        <p>You have successfully logged in.</p>
+
+        <p>Dashboard Home</p>
+        <p>Profile</p>
+        <p>Settings</p>
+
+        <button onclick="logout()">Logout</button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
+body {
+    font-family: Arial, sans-serif;
+    background: #eaf0f8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+}
+
+.container {
+    background: white;
+    padding: 30px;
+    width: 320px;
+    text-align: center;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px #aaa;
+}
+
+input {
+    width: 90%;
+    padding: 10px;
+    margin: 8px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    background: #2563eb;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #1d4ed8;
+}
+
+#message {
+    color: red;
+}
+
+#dashboard h1 {
+    color: #2563eb;
+}
+
+function register() {
+    let user = document.getElementById("regUsername").value;
+    let pass = document.getElementById("regPassword").value;
+
+    if (user === "" || pass === "") {
+        alert("Please enter username and password");
+        return;
+    }
+
+    let account = {
+        username: user,
+        password: pass
+    };
+
+    localStorage.setItem("user", JSON.stringify(account));
+
+    alert("Registration successful!");
+}
+
+function login() {
+    let user = document.getElementById("username").value;
+    let pass = document.getElementById("password").value;
+
+    let account = JSON.parse(localStorage.getItem("user"));
+
+    if (account && user === account.username &&
+        pass === account.password) {
+
+        sessionStorage.setItem("loggedIn", "true");
+        sessionStorage.setItem("currentUser", user);
+
+        showDashboard();
+    } else {
+        document.getElementById("message").innerText =
+            "Invalid username or password!";
+    }
+}
+
+function showDashboard() {
+    document.getElementById("loginPage").hidden = true;
+    document.getElementById("dashboard").hidden = false;
+
+    document.getElementById("welcomeUser").innerText =
+        sessionStorage.getItem("currentUser");
+}
+
+function logout() {
+    sessionStorage.removeItem("loggedIn");
+    sessionStorage.removeItem("currentUser");
+
+    document.getElementById("dashboard").hidden = true;
+    document.getElementById("loginPage").hidden = false;
+
+    document.getElementById("message").innerText = "";
+}
+
+window.onload = function () {
+    if (sessionStorage.getItem("loggedIn") === "true") {
+        showDashboard();
+    }
+};
