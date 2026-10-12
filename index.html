@@ -1,0 +1,50 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Login Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container" id="loginPage">
+        <h2>User Login</h2>
+
+        <input type="text" id="username"
+               placeholder="Enter username">
+
+        <input type="password" id="password"
+               placeholder="Enter password">
+
+        <button onclick="login()">Login</button>
+
+        <p id="message"></p>
+
+        <hr>
+
+        <h3>Register</h3>
+
+        <input type="text" id="regUsername"
+               placeholder="Create username">
+
+        <input type="password" id="regPassword"
+               placeholder="Create password">
+
+        <button onclick="register()">Register</button>
+    </div>
+
+    <div class="container" id="dashboard" hidden>
+        <h1>Dashboard</h1>
+
+        <h2>Welcome, <span id="welcomeUser"></span>!</h2>
+
+        <p>You have successfully logged in.</p>
+
+        <p>Home | Profile | Settings</p>
+
+        <button onclick="logout()">Logout</button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
